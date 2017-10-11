@@ -21,4 +21,5 @@ def mount_plexbackup():
 			print("NAS was mounted. Starting rsync now.")
 			os.cmd(rsync_command)		
 
+mount_plexbackup()
 		 
