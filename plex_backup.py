@@ -12,14 +12,14 @@ def mount_plexbackup():
 
 	if mp == True:
 		print("No errors. Starting rsync.")
-		os.cmd(rsync_command)
+		os.system(rsync_command)
 	else:
-		os.cmd(mount_plex)
+		os.system(mount_plex)
 		if mp == False:
 			print("NAS was not mounted exiting")
 		else:
 			print("NAS was mounted. Starting rsync now.")
-			os.cmd(rsync_command)		
+			os.system(rsync_command)		
 
 mount_plexbackup()
 		 
