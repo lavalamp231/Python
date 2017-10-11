@@ -16,7 +16,6 @@ def(mount_plexbackup):
 		os.cmd ("mount /Plex_backup")
 		if mp == False:
 			print("NAS was not mounted exiting")
-			return()
 		else:
 			print("NAS was mounted. Starting rsync now.")
 			os.cmd ("rsync -av /Storage2/TV-Shows/ /Plex_backup/TV-Shows/")
