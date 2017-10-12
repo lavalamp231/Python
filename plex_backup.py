@@ -18,11 +18,12 @@ def mount_plexbackup():
 	else:
 		subprocess.call("mount /Plex_backup", shell=True)
 		if mp == False:
-			print("NAS was not mounted exiting")
+			print("NAS could not be mounted. Exiting the script.")
+			exit()
 		else:
 			print("NAS was mounted. Starting rsync now.")
-		subprocess.call("rsync -av /Storage2/Movies/ /Plex_backup/Movies/", shell=True)
-		subprocess.call("rsync -av /Storage2/TV-Shows/ /Plex_backup/TV-Shows/", shell=True)		
+			subprocess.call("rsync -av /Storage2/Movies/ /Plex_backup/Movies/", shell=True)
+			subprocess.call("rsync -av /Storage2/TV-Shows/ /Plex_backup/TV-Shows/", shell=True)		
 
 mount_plexbackup()
 		 
