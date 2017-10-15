@@ -50,5 +50,4 @@ def check_if():
     else:
         return False
 
-mount_plexbackup(ck_up()
-
+mount_plexbackup()
