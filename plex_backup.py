@@ -16,11 +16,12 @@ def mount_plexbackup():
     """ """
 
     mp_is = check_if()
-    try:
-        if mp_is == False:
+    if mp_is == False:
+        try:
             subprocess.call("mount /Plex_backup", shell=True)
-    except Exception as e:
-        print("shit wrong: {0}".format(e))
+        except Exception as e:
+            print("shit wrong: {0}".format(e))
+            sys.exit()
 
     else:
         back_up()
