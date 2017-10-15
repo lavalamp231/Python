@@ -23,6 +23,8 @@ def mount_plexbackup():
             print("shit wrong: {0}".format(e))
             sys.exit()
 
+        back_up()
+
     else:
         back_up()
         sys.exit()
