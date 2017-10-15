@@ -21,6 +21,7 @@ def mount_plexbackup():
         subprocess.call("mount /Plex_backup", shell=True)
     except Exception as e:
         print("shit wrong: {0}".format(e))
+        sys.exit()
 
 def back_up():
     """ """
@@ -34,6 +35,6 @@ def check_if():
         return True
     else:
         mount_plexbackup()
-        return False
+        return True
 
 main()
