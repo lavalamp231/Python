@@ -8,7 +8,7 @@ import urllib
 # Variables
 sauce = urllib.urlopen('https://hackingvision.com/2017/09/22/kali-linux-ebooks-download-pdf-2017/').read()
 soup = bs.BeautifulSoup(sauce, 'lxml')
-f = open("/home/andrew/Documents/book.txt", "w")
+f = open("/tmp/book.txt", "w")
 
 
 # Creating file
@@ -23,7 +23,7 @@ def link_populate():
         f.write(str(url.get('href')) + "\n")
 
 def parse_pdf():
-    for line in open("/home/andrew/Documents/book.txt", 'r'):
+    for line in open("/tmp/book.txt", 'r'):
         if "arthur" in line:
             f.write(str(line) + "\n")
 
