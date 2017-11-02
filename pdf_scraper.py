@@ -17,6 +17,7 @@ def main():
     print("This is sparta!")
     link_populate()
     parse_pdf()
+    #download_pdf() don't use until I can get the loop in parse_pdf() fixed
 
 def link_populate():
     for url in soup.find_all('a'):
@@ -26,5 +27,10 @@ def parse_pdf():
     for line in open("/tmp/book.txt", 'r'):
         if "arthur" in line:
             f.write(str(line) + "\n")
+
+def download_pdf():
+    for line in open("/tmp/book.txt", 'r'):
+        if "pdf" in line:
+            call('wget -i /tmp/book.txt')
 
 main()
