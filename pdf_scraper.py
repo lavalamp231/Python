@@ -30,8 +30,6 @@ def parse_pdf():
             f.write(str(line) + "\n")
 
 def download_pdf():
-    for line in open("/tmp/book.txt", 'r'):
-        if "pdf" in line:
-            call('wget -i /tmp/book.txt')
+    call('wget -i /tmp/book.txt')
 
 main()
