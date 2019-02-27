@@ -24,4 +24,3 @@ njson_obj = json.dumps(json_obj, indent=4, sort_keys=True)
 
 print(njson_obj)
 
-print(url)
