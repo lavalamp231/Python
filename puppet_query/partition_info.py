@@ -1,18 +1,16 @@
 import requests
 import json
 
-
-
 #hostname = input("What is the hostname?")
 
 # URL 
-url = "http://192.168.0.27:8080/pdb/query/v4/nodes"
+url = "http://192.168.0.27:8080/pdb/query/v4/facts/partitions"
 
 # Headers
 headers = {'Content-type': 'application/json'}
 
 #query
-query = {"query":["~","certname",".*.esxi.com"], "order_by":[{"field":"certname"}],"limit":100}
+query = {"query":["~","certname",".*.esxi.com"]}
 
 # doing a POST with json 
 
