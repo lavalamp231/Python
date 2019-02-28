@@ -16,6 +16,8 @@ string = obj.read().decode('utf-8')
 
 json_obj = json.loads(string)
 
+print(type(json_obj))
+
 # create pretty json
 
 njson_obj = json.dumps(json_obj, indent=4, sort_keys=True)
