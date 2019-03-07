@@ -18,7 +18,8 @@ r = requests.post(url, json=query)
 
 # converting post into string
 
-r = r.text
+r = r.json
+print(r)
 
 # Creates a list of dictonaries
 
