@@ -1,12 +1,11 @@
 import requests
 import json
-
-
+import os
 
 #hostname = input("What is the hostname?")
 
 # URL 
-url = "http://192.168.0.27:8080/pdb/query/v4/nodes"
+url = "https://pe-server.esxi.com:8081/pdb/query/v4/nodes"
 
 # Headers
 headers = {'Content-type': 'application/json'}
@@ -16,7 +15,10 @@ query = {"query":["~","certname",".*.esxi.com"], "order_by":[{"field":"certname"
 
 # doing a POST with json 
 
-r = requests.post(url, json=query)
+username = os.getenv('username')
+f = ("C:/Users/" + username + "/ca.pem")
+
+r = requests.post(url, json=query, verify=f)
 
 # converting post into string
 
