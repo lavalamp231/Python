@@ -10,15 +10,40 @@ import time
 
 ips = []
 nm = nmap3.Nmap()
-port_scan_results = nm.scan_top_ports("192.168.0.*")
+nm_scan = nmap3.NmapScanTechniques()
+host_discovery_results = nm_scan.nmap_ping_scan("192.168.0.*")
 
-for r in port_scan_results:
-    if '192.168.0' in r:
-        ips.append(r)
+for item in host_discovery_results:
+    ip_address = item['addresses'][0]['addr']
+    ips.append(ip_address)
+
+
+def get_ip_info(ip):
+    nm = nmap3.Nmap()
+    nm_scan = nmap3.NmapScanTechniques()
+    host_discovery_results = nm_scan.nmap_ping_scan(ip)
+    for item in host_discovery_results:
+        ip_address = item['addresses'][0]['addr']
+        try:
+            mac_address = item['addresses'][1]['addr']
+        except Exception:
+            mac_address = str('not_available')
+        try:
+            vendor = item['addresses'][1]['vendor']
+        except Exception:
+            vendor = str('not_available')
+        hostnames = item['hostname']
+        if not hostnames:
+            hostnames = 'unknown'
+        else:
+            hostnames = hostnames[0]
+            hostnames = hostnames['name']
+        my_dict = {'Hostnames': hostnames, 'IPs': ip_address, 'mac_address': mac_address, 'Vendor': vendor}
+        return my_dict
 
 # Creating a dataframe with the below column names
 
-column_names = ['Hostnames', 'Hosts', 'Protocols' ,'Ports' ,'Names', 'State']
+column_names = ['Hostnames', 'IPs', 'Protocols' ,'Ports' ,'Names', 'State', 'MACaddress', 'Vendor']
 df = pd.DataFrame(columns=column_names)
 
 # from the IPs in the ips list we create a sepeate list of each item then filter out each item to create a dictionary to then be appended
@@ -32,12 +57,15 @@ for ip in ips:
     except Exception:
         host_names = str('Unknown')
     for key in result:
+        print(key)
         protocols = key['protocol']
         state = key['state']
         ports = key['port']
         names = key['service']['name']
-        my_dict = {'Hostnames': host_names, 'Hosts': ip, 'Protocols': protocols, 'Ports': ports, 'Names': names, 'State': state}
-        print(my_dict)
+        macad = get_ip_info(ip)['mac_address']
+        vendor_info = get_ip_info(ip)['Vendor']
+        my_dict = {'Hostnames': host_names, 'IPs': ip, 'Protocols': protocols, 'Ports': ports, 'Names': names, 'State': state, 'MACaddress': macad, 'Vendor': vendor_info}
+        #print(my_dict)
         df = df.append(my_dict, ignore_index=True)
         print(df)
 
