@@ -8,10 +8,6 @@ import re
 import pandas as pd
 
 cwd = os.getcwd()
-column_names = ['Names', 'IP', 'MAC', 'Type']
-df = pd.DataFrame(columns=column_names)
-df2 = pd.DataFrame(columns=column_names)
-
 
 def get_p():
     token_location = (cwd + '\\pfile')
@@ -55,8 +51,14 @@ def get_nodes(mylist):
         #print(a)
         j = json.loads(a)
         mylist.append(j)
-        
+
 get_nodes(node_list1)
+
+column_names = ['Names', 'IP', 'MAC', 'Type']
+#df = pd.DataFrame(node_list1)
+df = pd.DataFrame(columns=column_names)
+df2 = pd.DataFrame(columns=column_names)
+
 for item in node_list1:
     name = item['name']
     ip = item['ip']
@@ -65,11 +67,13 @@ for item in node_list1:
     my_dict = {'Names': name, 'IP': ip, 'MAC': mac, 'Type': type_n}
     df = df.append(my_dict, ignore_index=True)
 
-
-print(len(df))
+send_microsoft_teams_a_message("start of script:")
 send_microsoft_teams_a_message(str(df))
 
+print(df)
+
 while True:
+    time.sleep(45)
     get_nodes(node_list2)
     for item in node_list2:
         name2 = item['name']
@@ -79,8 +83,20 @@ while True:
         my_dict2 = {'Names': name2, 'IP': ip2, 'MAC': mac2, 'Type': type_n2}
         if ip2 not in df2.values:
             df2 = df2.append(my_dict2, ignore_index=True)
-        print(df2)
+        print("df")
         print(df)
-        # if len(df2) > len(df):
-        #     send_microsoft_teams_a_message("node has joined.")
-    
+        print("df2")
+        print(df2)
+        if len(df2) > len(df) and len(node_list1) <= len(df):
+            df = pd.concat([df, df2])
+            df = df.drop_duplicates()
+            send_microsoft_teams_a_message("node has joined.")
+            print("message sent")
+            print(df)
+            # can take last entry in dataframe then add it to df
+        if len(df2) < len(df) and len(node_list1) <= len(df):
+            df = df2
+            print(df)
+            send_microsoft_teams_a_message("node has left")
+            print("message sent")
+            
