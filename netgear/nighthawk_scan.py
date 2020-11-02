@@ -1,0 +1,86 @@
+import os
+import sys
+from pynetgear import Netgear
+import json
+import pymsteams
+import time
+import re
+import pandas as pd
+
+cwd = os.getcwd()
+column_names = ['Names', 'IP', 'MAC', 'Type']
+df = pd.DataFrame(columns=column_names)
+df2 = pd.DataFrame(columns=column_names)
+
+
+def get_p():
+    token_location = (cwd + '\\pfile')
+    open_token_file = open(token_location, 'r')
+    read_token_file = open_token_file.read()
+    open_token_file.close()
+    return read_token_file
+
+def get_webhook():
+    token_location = (cwd + '\\url')
+    open_token_file = open(token_location, 'r')
+    read_token_file = open_token_file.read()
+    open_token_file.close()
+    return read_token_file
+
+
+def send_microsoft_teams_a_message(message):
+    url2 = get_webhook()
+    #print(type(url2))
+    myTeamsMessage = pymsteams.connectorcard(url2)
+    # Add text to the message.
+    myTeamsMessage.text(message)
+    # send the message.
+    myTeamsMessage.send()
+
+netgear = Netgear(password=get_p())
+node_list1 = []
+node_list2 = []
+
+def get_nodes(mylist):
+    for i in netgear.get_attached_devices():
+        i = str(i)
+        i = i.replace("Device", "",)
+        remove_parenthesis = i.replace("(", "{").replace(")", "}")
+        f = remove_parenthesis.replace("=", " : ").replace("'", '"')
+        a = re.sub(r'\s:', '" :', f)
+        a = re.sub(r', ', ', "', a)
+        a = re.sub(r'{n', '{"n', a)
+        a = re.sub(r'(\s)None', ' "None"', a)
+        a = re.sub(r'55" TCL', '55 TCL', a)
+        #print(a)
+        j = json.loads(a)
+        mylist.append(j)
+        
+get_nodes(node_list1)
+for item in node_list1:
+    name = item['name']
+    ip = item['ip']
+    mac = item['mac']
+    type_n = item['type']
+    my_dict = {'Names': name, 'IP': ip, 'MAC': mac, 'Type': type_n}
+    df = df.append(my_dict, ignore_index=True)
+
+
+print(len(df))
+send_microsoft_teams_a_message(str(df))
+
+while True:
+    get_nodes(node_list2)
+    for item in node_list2:
+        name2 = item['name']
+        ip2 = item['ip']
+        mac2 = item['mac']
+        type_n2 = item['type']
+        my_dict2 = {'Names': name2, 'IP': ip2, 'MAC': mac2, 'Type': type_n2}
+        if ip2 not in df2.values:
+            df2 = df2.append(my_dict2, ignore_index=True)
+        print(df2)
+        print(df)
+        # if len(df2) > len(df):
+        #     send_microsoft_teams_a_message("node has joined.")
+    
