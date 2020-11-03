@@ -53,12 +53,11 @@ def get_nodes(mylist):
         j = json.loads(a)
         for item in to_remove:
             j.pop(item)
-        print(j)
+        #print(j)
         if j not in mylist:
             mylist.append(j)
 
 get_nodes(node_list1)
-
 df = pd.DataFrame(node_list1)
 
 #df = df.drop(columns=to_remove)
@@ -68,6 +67,7 @@ send_microsoft_teams_a_message("start of script:")
 send_microsoft_teams_a_message(str(df))
 
 while True:
+    node_list2 = []
     time.sleep(30)
     get_nodes(node_list2)
     df2 = pd.DataFrame(node_list2)
@@ -92,4 +92,9 @@ while True:
         print(df2)
         send_microsoft_teams_a_message("node has left")
         print("message sent")
+        # Refresh the static df dataframe
+        node_list1 = []
+        get_nodes(node_list1)
+        df = pd.DataFrame(node_list1)
+
             
