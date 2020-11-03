@@ -71,7 +71,7 @@ send_microsoft_teams_a_message("start of script:")
 send_microsoft_teams_a_message(str(df))
 
 while True:
-    time.sleep(45)
+    time.sleep(30)
     get_nodes(node_list2)
     for item in node_list2:
         name2 = item['name']
@@ -92,12 +92,10 @@ while True:
             print("message sent")
             print("df from if df2 > df")
             print(df)
+            print("df2 from if df2 < df")
+            print(df2)
             # can take last entry in dataframe then add it to df
-        if len(df2) < len(df) and len(node_list1) <= len(df):
-            # df = pd.concat([df, df2]) # concat dataframes # Used from https://pythondata.com/quick-tip-comparing-two-pandas-dataframes-and-getting-the-differences/
-            # df = df.reset_index(drop=True) # reset the index
-            # df_gpby = df.groupby(list(df.columns)) #group by
-            # df = [x[0] for x in df_gpby.groups.values() if len(x) == 1] #reindex
+        if len(df2) <= len(df):
             print("df from if df2 < df")
             print(df)
             print("df2 from if df2 < df")
