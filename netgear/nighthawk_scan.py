@@ -8,6 +8,7 @@ import re
 import pandas as pd
 
 cwd = os.getcwd()
+to_remove = ['signal', 'link_rate', 'allow_or_block', 'device_type', 'device_model', 'ssid', 'conn_ap_mac']
 
 def get_p():
     token_location = (cwd + '\\pfile')
@@ -50,22 +51,18 @@ def get_nodes(mylist):
         a = re.sub(r'55" TCL', '55 TCL', a)
         #print(a)
         j = json.loads(a)
-        mylist.append(j)
+        for item in to_remove:
+            j.pop(item)
+        print(j)
+        if j not in mylist:
+            mylist.append(j)
 
 get_nodes(node_list1)
 
-column_names = ['Names', 'IP', 'MAC', 'Type']
-#df = pd.DataFrame(node_list1)
-df = pd.DataFrame(columns=column_names)
-df2 = pd.DataFrame(columns=column_names)
+df = pd.DataFrame(node_list1)
 
-for item in node_list1:
-    name = item['name']
-    ip = item['ip']
-    mac = item['mac']
-    type_n = item['type']
-    my_dict = {'Names': name, 'IP': ip, 'MAC': mac, 'Type': type_n}
-    df = df.append(my_dict, ignore_index=True)
+#df = df.drop(columns=to_remove)
+
 
 send_microsoft_teams_a_message("start of script:")
 send_microsoft_teams_a_message(str(df))
@@ -73,34 +70,26 @@ send_microsoft_teams_a_message(str(df))
 while True:
     time.sleep(30)
     get_nodes(node_list2)
-    for item in node_list2:
-        name2 = item['name']
-        ip2 = item['ip']
-        mac2 = item['mac']
-        type_n2 = item['type']
-        my_dict2 = {'Names': name2, 'IP': ip2, 'MAC': mac2, 'Type': type_n2}
-        if ip2 not in df2.values:
-            df2 = df2.append(my_dict2, ignore_index=True)
-        # print("df")
-        # print(df)
-        # print("df2")
-        # print(df2)
-        if len(df2) > len(df) and len(node_list1) <= len(df):
-            df = pd.concat([df, df2])
-            df = df.drop_duplicates()
-            send_microsoft_teams_a_message("node has joined.")
-            print("message sent")
-            print("df from if df2 > df")
-            print(df)
-            print("df2 from if df2 < df")
-            print(df2)
-            # can take last entry in dataframe then add it to df
-        if len(df2) <= len(df):
-            print("df from if df2 < df")
-            print(df)
-            print("df2 from if df2 < df")
-            print(df2)
-            if len(df2) > len(df):
-                send_microsoft_teams_a_message("node has left")
-                print("message sent")
+    df2 = pd.DataFrame(node_list2)
+    #df2 = df2.drop(columns=to_remove)
+    print(len(node_list1))
+    print("df2 from while loop")
+    print(df2)
+    if len(df2) > len(df):
+        df = pd.concat([df, df2])
+        df = df.drop_duplicates()
+        send_microsoft_teams_a_message("node has joined.")
+        print("message sent")
+        print("df from if df2 > df")
+        print(df)
+        print("df2 from if df2 > df")
+        print(df2)
+        # can take last entry in dataframe then add it to df
+    if len(df2) < len(df):
+        print("df from if df2 < df")
+        print(df)
+        print("df2 from if df2 < df")
+        print(df2)
+        send_microsoft_teams_a_message("node has left")
+        print("message sent")
             
