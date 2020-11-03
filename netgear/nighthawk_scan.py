@@ -70,8 +70,6 @@ for item in node_list1:
 send_microsoft_teams_a_message("start of script:")
 send_microsoft_teams_a_message(str(df))
 
-print(df)
-
 while True:
     time.sleep(45)
     get_nodes(node_list2)
@@ -83,20 +81,28 @@ while True:
         my_dict2 = {'Names': name2, 'IP': ip2, 'MAC': mac2, 'Type': type_n2}
         if ip2 not in df2.values:
             df2 = df2.append(my_dict2, ignore_index=True)
-        print("df")
-        print(df)
-        print("df2")
-        print(df2)
+        # print("df")
+        # print(df)
+        # print("df2")
+        # print(df2)
         if len(df2) > len(df) and len(node_list1) <= len(df):
             df = pd.concat([df, df2])
             df = df.drop_duplicates()
             send_microsoft_teams_a_message("node has joined.")
             print("message sent")
+            print("df from if df2 > df")
             print(df)
             # can take last entry in dataframe then add it to df
         if len(df2) < len(df) and len(node_list1) <= len(df):
-            df = df2
+            # df = pd.concat([df, df2]) # concat dataframes # Used from https://pythondata.com/quick-tip-comparing-two-pandas-dataframes-and-getting-the-differences/
+            # df = df.reset_index(drop=True) # reset the index
+            # df_gpby = df.groupby(list(df.columns)) #group by
+            # df = [x[0] for x in df_gpby.groups.values() if len(x) == 1] #reindex
+            print("df from if df2 < df")
             print(df)
-            send_microsoft_teams_a_message("node has left")
-            print("message sent")
+            print("df2 from if df2 < df")
+            print(df2)
+            if len(df2) > len(df):
+                send_microsoft_teams_a_message("node has left")
+                print("message sent")
             
