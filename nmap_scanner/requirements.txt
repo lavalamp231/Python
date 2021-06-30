@@ -1,4 +1,0 @@
-pandas
-pymsteams
-python3-nmap
-requests
