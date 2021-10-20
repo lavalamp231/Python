@@ -1,6 +1,6 @@
 import os
 
-def get_esxi.com():
+def get_esxi_com():
 	d = "/var/named/esxi.com"
 	with open(d):
 		data = file.read
