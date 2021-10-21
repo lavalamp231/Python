@@ -26,20 +26,21 @@ def check_esxi_com():
 			    	if a == int or a != "y" or a != "n":
 			    		a = input("hostname already exists - would you like to update the DNS record? y = yes; n = no")
 			    	elif a == "y":
-			    		input_ip_replace = input("what is the IP you are replacing")
-			    		line_to_replace = input_hostname + "IN A " + list_line[3], input_hostname + "IN A " + input_ip_replace)
+			    		line_to_replace = input_hostname + "IN A " + list_line[3]
 			    		return str(line_to_replace)
 			    else:
 			    	return False # not replacing; hostname was not found in the file
 
+result = check_esxi_com()
+
 def update_esxi_com():
 	with open(esxi_com, "a+") as x:
-		if check_esxi_com() == False: # adding entry
+		if result == False: # adding entry
 			ip = input("What is the ip you are adding for " + input_hostname)
-			x.write(input_hostname + " IN A" + ip)
+			x.write("\n" + input_hostname + " IN A" + ip)
 		else: # replacing the line
-			ip = input("What is the ip you are replacing for " + input_hostname)
+		    ip = input("Replacing " + input_hostname + "ip. What is the new ip:")
 			print("replacing " + input_hostname + "'s IP in esxi.com")
-			x.replace(str(check_esxi_com()), input_hostname + " IN A" + ip)
+			x.replace(result, input_hostname + " IN A " + ip)
 
 
