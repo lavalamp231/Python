@@ -28,6 +28,8 @@ def check_esxi_com():
 			    	elif a == "y":
 			    		line_to_replace = input_hostname + "IN A " + list_line[3]
 			    		return str(line_to_replace)
+			    	elif a == "n":
+			    		exit()
 			    else:
 			    	return False # not replacing; hostname was not found in the file
 
