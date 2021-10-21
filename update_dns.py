@@ -8,7 +8,7 @@ import os
 
 i = os.getcwd()
 
-input_hostname = input("What is the hostname")
+input_hostname = input("What is the hostname\n:")
 input_hostname = input_hostname + "."
 esxi_com = i + "\\dns_files\\esxi.com.txt"
 d = "/var/named/esxi.com"
@@ -46,3 +46,4 @@ def update_esxi_com():
             x.replace(result, input_hostname + " IN A " + ip)
 
 
+update_esxi_com()
