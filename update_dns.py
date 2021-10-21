@@ -8,7 +8,7 @@ import os
 
 i = os.getcwd()
 
-input_hostname = input("What is the hostname\n:")
+input_hostname = input("What is the hostname:\n")
 input_hostname = input_hostname + "."
 esxi_com = i + "\\dns_files\\esxi.com.txt"
 d = "/var/named/esxi.com"
