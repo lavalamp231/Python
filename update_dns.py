@@ -38,7 +38,7 @@ result = check_esxi_com()
 def update_esxi_com():
     with open(esxi_com, "a+") as x:
         if result == False: # adding entry
-            ip = input("What is the ip you are adding for " + input_hostname)
+            ip = input("What is the ip you are adding for " + input_hostname + "\n")
             x.write("\n" + input_hostname + " IN A" + ip)
         else: # replacing the line
             ip = input("Replacing " + input_hostname + "ip. What is the new ip:")
