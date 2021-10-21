@@ -11,10 +11,10 @@ i = os.getcwd()
 input_hostname = input("What is the hostname")
 input_hostname = input_hostname + "."
 esxi_com = i + "\\dns_files\\esxi.com.txt"
+d = "/var/named/esxi.com"
 
 def check_esxi_com():
-    #d = "/var/named/esxi.com"
-    with open(esxi_com) as x:
+    with open(d) as x:
         data = x.read()
         print(data)     
         for line in data.split("\n"):
