@@ -14,12 +14,15 @@ os.chdir(dir_path)
 
 def read_text_file(file_path):
     with open(file_path, 'r') as f:
-        print(f.read())
+        for line in f:
+            listofwords = ["gmail", "itary"]
+            if all(x in line for x in listofwords):
+                print(line)
 
 # iterate through all file
 for file in os.listdir():
     # Check whether file is in text format or not
-    if "Server" in file:
+    if "Plex Media Server" in file:
         print(file)
         file_path = f"{dir_path}{file}"
   
