@@ -5,6 +5,8 @@ import re
 dir_path = r"/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs/"
 
 os.chdir(dir_path)
+
+# create a dict with user. Need item played, IP, user (key), date, x-plex-device-name
 user_dict = dict()
 
 def read_text_file(file_path):
@@ -18,11 +20,6 @@ def read_text_file(file_path):
                 date = re.search('^(.+?)\[', line).group(1)
                 Plex_device_name = re.search('X-Plex-Device-Name => (.+?)\ \/', line).group(1)
                 user_dict[date] = {'User': user, 'Movie': movie, 'IP address': ip_address, 'Plex_device_name': Plex_device_name}
-                #print(user_dict)
-                # print(user)
-                # print(movie)
-                # print(ip_address)
-                # print(date)
                 
 # iterate through all file
 for file in os.listdir():
