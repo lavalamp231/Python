@@ -33,8 +33,9 @@ for file in os.listdir():
 
 #need to read results.json file to work off of then add new entries. 
 
-with open(json_file, 'r+') as f:
-    d = json.load(f)
-    d.update(user_dict)
-    f.seek(0)
-    json.dump(d, f)
+if bool(user_dict):
+    with open(json_file, 'r+') as f:
+        d = json.load(f)
+        d.update(user_dict)
+        f.seek(0)
+        json.dump(d, f)
