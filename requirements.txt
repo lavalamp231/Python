@@ -1,0 +1,5 @@
+python-nmap
+pandas
+sockets
+times
+datetime
